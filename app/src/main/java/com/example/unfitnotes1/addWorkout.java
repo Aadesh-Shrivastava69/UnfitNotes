@@ -1,7 +1,10 @@
 package com.example.unfitnotes1;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -49,6 +52,22 @@ public class addWorkout extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         ArrayAdapter <String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ExerciseType);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                if (selectedItem.equals("Abs")) {
+                    Intent intent = new Intent(addWorkout.this, Abs.class);
+                    startActivity(intent);
+                } else if (selectedItem.equals("Back")) {
+                    Intent intent = new Intent(addWorkout.this, Back.class);
+                    startActivity(intent);
+
+                }
+
+
+            }
+        });
 
         fab1.setOnClickListener(v -> {
             finish();
