@@ -2,6 +2,8 @@ package com.example.unfitnotes1;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,25 @@ public class addWorkout extends AppCompatActivity {
     private ActivityAddWorkoutBinding binding;
     FloatingActionButton fab1;
 
+
+    private static final String TAG = "addWorkout";
+    String [] ExerciseType = {
+            "Abs",
+            "Back",
+            "Biceps",
+            "Chest",
+            "Cardio",
+            "Legs",
+            "Shoulders",
+            "Triceps"
+
+    };
+
+
+
+
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +46,14 @@ public class addWorkout extends AppCompatActivity {
         setContentView(R.layout.activity_add_workout);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_workout);
         fab1 = findViewById(R.id.floatingActionButton5);
+        ListView listView = findViewById(R.id.listView);
+        ArrayAdapter <String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ExerciseType);
+        listView.setAdapter(adapter);
+
         fab1.setOnClickListener(v -> {
             finish();
         });
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

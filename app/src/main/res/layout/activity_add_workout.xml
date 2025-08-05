@@ -17,8 +17,8 @@
 
         <ListView
             android:id="@+id/listView"
-            android:layout_width="413dp"
-            android:layout_height="663dp"
+            android:layout_width="415dp"
+            android:layout_height="776dp"
             android:background="#F4EEEE"
             android:backgroundTint="#F2EFEF"
             android:cacheColorHint="#F4F2F2"
@@ -37,9 +37,8 @@
             android:background="#9290D3"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
-            app:layout_constraintBottom_toTopOf="@+id/listView"
+            app:layout_constraintBottom_toBottomOf="@+id/listView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -55,6 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="@+id/toolbar2"
-            app:srcCompat="@drawable/arrow" />
+            app:srcCompat="@drawable/arrow"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
