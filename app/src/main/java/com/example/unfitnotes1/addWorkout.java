@@ -29,7 +29,6 @@ public class addWorkout extends AppCompatActivity {
             "Back",
             "Biceps",
             "Chest",
-            "Cardio",
             "Legs",
             "Shoulders",
             "Triceps"
@@ -63,7 +62,32 @@ public class addWorkout extends AppCompatActivity {
                     Intent intent = new Intent(addWorkout.this, Back.class);
                     startActivity(intent);
 
+                } else if (selectedItem.equals("Biceps")) {
+                    Intent intent = new Intent(addWorkout.this, biceps.class);
+                    startActivity(intent);
+
                 }
+                else if (selectedItem.equals("Chest")) {
+                    Intent intent = new Intent(addWorkout.this, Chest.class);
+                    startActivity(intent);
+
+                }
+                else if (selectedItem.equals("Legs")) {
+                    Intent intent = new Intent(addWorkout.this,Legs.class);
+                    startActivity(intent);
+
+                }
+                else if (selectedItem.equals("Triceps")) {
+                    Intent intent = new Intent(addWorkout.this,Tricep.class);
+                    startActivity(intent);
+
+                }
+                else if (selectedItem.equals("Shoulders")) {
+                    Intent intent = new Intent(addWorkout.this,Shoulder.class);
+                    startActivity(intent);
+
+                }
+
 
 
             }
