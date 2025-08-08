@@ -1,7 +1,9 @@
 package com.example.unfitnotes1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,6 +44,14 @@ public class Chest extends AppCompatActivity {
         setContentView(R.layout.activity_chest);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_chest);
         listView = findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Chest.this, addSets.class);
+                intent.putExtra("exercise_name", ChestExercise[position]);
+                startActivity(intent);
+            }
+        });
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,ChestExercise);
         listView.setAdapter(adapter);
 

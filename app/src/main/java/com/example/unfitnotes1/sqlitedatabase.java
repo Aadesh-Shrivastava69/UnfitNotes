@@ -62,7 +62,7 @@ public class sqlitedatabase extends SQLiteOpenHelper {
         List<SetEntry> sets = new ArrayList<>();
         String today = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(new java.util.Date());
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE + " = ?";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE + " = ?" + "ORDER BY " + COLUMN_EXERCISE ;
         String[] selectionArgs = {today};
         Cursor cursor = db.rawQuery(query, selectionArgs);
         if (cursor.moveToFirst()) {
@@ -72,7 +72,9 @@ public class sqlitedatabase extends SQLiteOpenHelper {
                 String exercise_name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXERCISE));
                 double reps = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_REPS));
                 double weight = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_WEIGHT));
-                SetEntry setEntry = new SetEntry( exercise_name, reps, weight);
+                String repval = reps + " reps";
+                String weightval = weight + " kg";
+                SetEntry setEntry = new SetEntry( exercise_name, repval, weightval);
                 sets.add(setEntry);
             } while (cursor.moveToNext());
 

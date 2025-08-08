@@ -10,11 +10,11 @@ import java.util.List;
 public class SetEntry {
     public String exercise_name;
 
-    public double reps;
-    public double weight;
+    public String reps;
+    public String weight;
 
 
-    public SetEntry(String exercise_name,double reps, double weight) {
+    public SetEntry(String exercise_name,String reps, String weight) {
         this.exercise_name = exercise_name;
         this.reps = reps;
         this.weight = weight;

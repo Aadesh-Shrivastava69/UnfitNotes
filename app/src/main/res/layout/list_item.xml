@@ -20,6 +20,8 @@
     <TextView
         android:id="@+id/textViewWeight"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/aldrich"
         android:layout_height="wrap_content" />
+
 
 </LinearLayout>

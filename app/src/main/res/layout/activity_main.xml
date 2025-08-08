@@ -116,20 +116,6 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintVertical_bias="0.23" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="560dp"
-            android:background="#9290D3"
-            android:clickable="true"
-            app:backgroundTint="#9290D3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:srcCompat="@android:drawable/ic_menu_search"
-            tools:ignore="SpeakableTextPresentCheck" />
-
         <ListView
             android:id="@+id/listView69"
             android:layout_width="wrap_content"
@@ -138,9 +124,11 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="7dp"
             android:background="#F6EFEF"
+            android:fontFamily="@font/aldrich"
             app:layout_constraintEnd_toEndOf="@+id/recyclerView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
