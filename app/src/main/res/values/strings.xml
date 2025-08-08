@@ -2,4 +2,10 @@
     <string name="app_name">unfitnotes1</string>
     <string name="DEFAULTWORK">NO WORKOUT HERE</string>
     <string name="default_noWorkout">Workout Log Empty\nYOU ARE GAY</string>
+    <string name="Weights">WEIGHT (kgs)</string>
+    <string name="plusWeight">+</string>
+    <string name="Minus">-</string>
+    <string name="reps">REPS</string>
+    <string name="Savebutton">SAVE\n</string>
+    <string name="clearButton">CLEAR</string>
 </resources>
