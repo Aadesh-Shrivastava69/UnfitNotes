@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,16 +113,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d(TAG, "onResume: resumed");
         Toast.makeText(this,"resumed",Toast.LENGTH_SHORT).show();
-        TextView textView = findViewById(R.id.textView);
+        ListView listView = findViewById(R.id.listView69);
         sqlitedatabase db = new sqlitedatabase(this);
         List<SetEntry> sets = db.getSets();
         if (!sets.isEmpty()) {
-            String displayText = "Exercise: " + sets.get(0).exercise_name
-                    + "\nReps: " + sets.get(0).reps
-                    + "\nWeight: " + sets.get(0).weight;
-            textView.setText(displayText);
+            SetEntryAdapter adapter = new SetEntryAdapter(this,sets);
+            listView.setAdapter(adapter);
         } else {
-            textView.setText("No data available.");
+            TextView textView = findViewById(R.id.textView);
+            textView.setText(R.string.default_noWorkout);
         }
 
 

@@ -1,5 +1,12 @@
 package com.example.unfitnotes1;
 
+import android.content.Context;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+
+import java.util.List;
+
 public class SetEntry {
     public String exercise_name;
 
