@@ -14,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.room.Room;
 
 import com.example.unfitnotes1.databinding.ActivityAddSetsBinding;
 
@@ -32,14 +33,18 @@ public class addSets extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_sets);
         String exercise_name = getIntent().getStringExtra("exercise_name");
         String today = new java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(new java.util.Date());
-        db = new sqlitedatabase(this);
+        AppDataBase db = Room.databaseBuilder(getApplicationContext(),AppDataBase.class, "unfitnotes_db")
+                .fallbackToDestructiveMigration()
+                .build();
         button= findViewById(R.id.button16);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               double reps = Double.parseDouble((binding.editTextNumberDecimal).getText().toString());
+               int reps = Integer.parseInt((binding.editTextNumberDecimal).getText().toString());
                 double weight = Double.parseDouble((binding.editTextNumberDecimal2).getText().toString());
-                db.addsets(today,exercise_name,reps,weight);
+                workoutset newset = new workoutset(1,today,exercise_name,weight,reps);
+                db.dao().insert(newset);
+
                 Intent intent = new Intent(addSets.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);

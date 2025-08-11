@@ -23,6 +23,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.room.Room;
 
 import com.example.unfitnotes1.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -114,15 +115,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onResume: resumed");
         Toast.makeText(this,"resumed",Toast.LENGTH_SHORT).show();
         ListView listView = findViewById(R.id.listView69);
-        sqlitedatabase db = new sqlitedatabase(this);
-        List<SetEntry> sets = db.getSets();
-        if (!sets.isEmpty()) {
-            SetEntryAdapter adapter = new SetEntryAdapter(this,sets);
-            listView.setAdapter(adapter);
-        } else {
-            TextView textView = findViewById(R.id.textView);
-            textView.setText(R.string.default_noWorkout);
-        }
+        AppDataBase db = Room.databaseBuilder(getApplicationContext(),
+                        AppDataBase.class, "unfitnotes_db")
+                .fallbackToDestructiveMigration()
+                .build();
+        new Thread(() -> {
+            List<workoutset> sets = db.dao().getAll();
+            runOnUiThread(() -> {
+                SetEntryAdapter adapter = new SetEntryAdapter(this,sets);
+                listView.setAdapter(adapter);
+                // Update your UI with the data here
+            });
+        }).start();
+
 
 
 
