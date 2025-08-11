@@ -43,7 +43,8 @@ public class addSets extends AppCompatActivity {
                int reps = Integer.parseInt((binding.editTextNumberDecimal).getText().toString());
                 double weight = Double.parseDouble((binding.editTextNumberDecimal2).getText().toString());
                 workoutset newset = new workoutset(1,today,exercise_name,weight,reps);
-                db.dao().insert(newset);
+                new Thread(() -> db.dao().insert(newset)).start();
+
 
                 Intent intent = new Intent(addSets.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
