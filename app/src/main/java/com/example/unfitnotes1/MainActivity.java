@@ -1,9 +1,6 @@
 package com.example.unfitnotes1;
 
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +8,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.graphics.Insets;
@@ -28,12 +23,8 @@ import androidx.room.Room;
 import com.example.unfitnotes1.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
@@ -124,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 SetEntryAdapter adapter = new SetEntryAdapter(this,sets);
                 listView.setAdapter(adapter);
-                // Update your UI with the data here
             });
         }).start();
 

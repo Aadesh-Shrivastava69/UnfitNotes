@@ -16,19 +16,18 @@
         tools:context=".addWorkout">
 
         <ListView
-            android:id="@+id/listView"
-            android:layout_width="415dp"
-            android:layout_height="776dp"
+            android:id="@+id/exercise_categorylistview"
+            android:layout_width="411dp"
+            android:layout_height="780dp"
             android:background="#F4EEEE"
             android:backgroundTint="#F2EFEF"
             android:cacheColorHint="#F4F2F2"
             android:foregroundTint="#FAF7F7"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.941" />
+            app:layout_constraintVertical_bias="0.976" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar2"
