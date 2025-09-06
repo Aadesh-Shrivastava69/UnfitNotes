@@ -2,6 +2,7 @@ package com.example.unfitnotes1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,6 +62,31 @@ public class biceps extends AppCompatActivity {
 
             }
         }).start();
+
+
+
+        // ui update
+        new Thread(() ->{
+            List<name_Exercise> fetchedTypes = db.NameExDao().getExercisesForCategory(3);
+
+
+            List<String> typeNames = new ArrayList<>();
+            for (name_Exercise et : fetchedTypes) {
+                typeNames.add(et.getExercise_name());
+            }
+
+            runOnUiThread(() -> {
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        biceps.this,
+                        android.R.layout.simple_list_item_1,
+                        typeNames
+                );
+                listView.setAdapter(adapter);
+            });
+        }).start();
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,8 +95,6 @@ public class biceps extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, BicepExercises);
-        listView.setAdapter(adapter);
         fab = findViewById(R.id.floatingActionButton5);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

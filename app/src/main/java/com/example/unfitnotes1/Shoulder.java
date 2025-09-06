@@ -64,6 +64,30 @@ public class Shoulder extends AppCompatActivity {
         }).start();
         ListView listView;
         listView = findViewById(R.id.listView);
+
+        // ui update
+        new Thread(() ->{
+            List<name_Exercise> fetchedTypes = db.NameExDao().getExercisesForCategory(6);
+
+
+            List<String> typeNames = new ArrayList<>();
+            for (name_Exercise et : fetchedTypes) {
+                typeNames.add(et.getExercise_name());
+            }
+
+            runOnUiThread(() -> {
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        Shoulder.this,
+                        android.R.layout.simple_list_item_1,
+                        typeNames
+                );
+                listView.setAdapter(adapter);
+
+            });
+        }).start();
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -72,8 +96,8 @@ public class Shoulder extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ShoulderExercises);
-        listView.setAdapter(adapter);
+
+
         fab = findViewById(R.id.floatingActionButton5);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

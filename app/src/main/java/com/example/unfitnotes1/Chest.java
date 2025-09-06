@@ -64,6 +64,29 @@ public class Chest extends AppCompatActivity {
 
             }
         }).start();
+
+        // ui update
+        new Thread(() ->{
+            List<name_Exercise> fetchedTypes = db.NameExDao().getExercisesForCategory(4);
+
+
+            List<String> typeNames = new ArrayList<>();
+            for (name_Exercise et : fetchedTypes) {
+                typeNames.add(et.getExercise_name());
+            }
+
+            runOnUiThread(() -> {
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        Chest.this,
+                        android.R.layout.simple_list_item_1,
+                        typeNames
+                );
+                listView.setAdapter(adapter);
+            });
+        }).start();
+
+
         listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,8 +96,6 @@ public class Chest extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,ChestExercise);
-        listView.setAdapter(adapter);
 
         fab = findViewById(R.id.floatingActionButton5);
         fab.setOnClickListener(new View.OnClickListener() {

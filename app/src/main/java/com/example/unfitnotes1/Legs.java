@@ -47,6 +47,8 @@ public class Legs extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_legs);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_legs);
+        ListView listView;
+        listView = findViewById(R.id.listView);
         db = AppDataBase.getInstance(getApplicationContext());
         List<name_Exercise> exerciseList = new ArrayList<>();
         for (String exerciseName : LegExercise) {
@@ -63,8 +65,31 @@ public class Legs extends AppCompatActivity {
 
             }
         }).start();
-        ListView listView;
-        listView = findViewById(R.id.listView);
+
+        // ui update
+        new Thread(() ->{
+            List<name_Exercise> fetchedTypes = db.NameExDao().getExercisesForCategory(5);
+
+
+            List<String> typeNames = new ArrayList<>();
+            for (name_Exercise et : fetchedTypes) {
+                typeNames.add(et.getExercise_name());
+            }
+
+            runOnUiThread(() -> {
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        Legs.this,
+                        android.R.layout.simple_list_item_1,
+                        typeNames
+                );
+                listView.setAdapter(adapter);
+
+            });
+        }).start();
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,8 +98,7 @@ public class Legs extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, LegExercise);
-        listView.setAdapter(adapter);
+
         fab = findViewById(R.id.floatingActionButton5);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

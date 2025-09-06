@@ -4,6 +4,7 @@ package com.example.unfitnotes1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -65,6 +66,28 @@ public class Abs extends AppCompatActivity {
 
             }
         }).start();
+
+        // ui update
+        new Thread(() ->{
+            List<name_Exercise> fetchedTypes = db.NameExDao().getExercisesForCategory(1);
+            Log.d(TAG, "Fetched size: " + fetchedTypes.size()); // debug
+
+            List<String> typeNames = new ArrayList<>();
+            for (name_Exercise et : fetchedTypes) {
+                typeNames.add(et.getExercise_name());
+            }
+
+            runOnUiThread(() -> {
+                Log.d(TAG, "TypeNames: " + typeNames);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        Abs.this,
+                        android.R.layout.simple_list_item_1,
+                        typeNames
+                );
+                listView.setAdapter(adapter);
+            });
+        }).start();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -79,8 +102,6 @@ public class Abs extends AppCompatActivity {
                 finish();
             }
         });
-        ArrayAdapter <String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, AbsExercise);
-        listView.setAdapter(adapter);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

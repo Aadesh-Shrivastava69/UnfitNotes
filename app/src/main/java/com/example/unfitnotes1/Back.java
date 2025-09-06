@@ -4,6 +4,7 @@ package com.example.unfitnotes1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,6 +51,7 @@ public class Back extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_back);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_back);
+        listview = findViewById(R.id.listView);
         db = AppDataBase.getInstance(getApplicationContext());
         List<name_Exercise> exerciseList = new ArrayList<>();
         for (String exerciseName : BackExercises) {
@@ -73,9 +75,28 @@ public class Back extends AppCompatActivity {
 
             }
         }).start();
-        listview = findViewById(R.id.listView);
-        ArrayAdapter <String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, BackExercises);
-        listview.setAdapter(adapter);
+        // ui update
+        new Thread(() ->{
+            List<name_Exercise> fetchedTypes = db.NameExDao().getExercisesForCategory(2);
+            Log.d(TAG, "Fetched size: " + fetchedTypes.size()); // debug
+
+            List<String> typeNames = new ArrayList<>();
+            for (name_Exercise et : fetchedTypes) {
+                typeNames.add(et.getExercise_name());
+            }
+
+            runOnUiThread(() -> {
+                Log.d(TAG, "TypeNames: " + typeNames);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        Back.this,
+                        android.R.layout.simple_list_item_1,
+                        typeNames
+                );
+                listview.setAdapter(adapter);
+            });
+        }).start();
+
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
