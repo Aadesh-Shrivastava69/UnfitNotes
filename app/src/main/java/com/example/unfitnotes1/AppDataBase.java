@@ -13,7 +13,7 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {workoutset.class, category_Exercise.class}, version = 4)
+@Database(entities = {workoutset.class, category_Exercise.class, name_Exercise.class}, version = 5)
 public abstract class AppDataBase extends RoomDatabase {
     public abstract DAO dao();
     private static volatile AppDataBase INSTANCE;
@@ -32,7 +32,8 @@ public abstract class AppDataBase extends RoomDatabase {
         return INSTANCE;
     }
     public abstract categoryExDao CategoryExDao();
-    private static final int NUMBER_OF_THREADS = 4;
+    public abstract nameExDao NameExDao ();
+    private static final int NUMBER_OF_THREADS = 5;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 

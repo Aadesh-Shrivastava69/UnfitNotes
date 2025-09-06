@@ -19,8 +19,12 @@ import com.example.unfitnotes1.databinding.ActivityBicepsBinding;
 import com.example.unfitnotes1.databinding.ActivityShoulderBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Shoulder extends AppCompatActivity {
     FloatingActionButton fab;
+    private AppDataBase db;
     private ActivityShoulderBinding  binding;
 
     String [] ShoulderExercises = {
@@ -33,6 +37,7 @@ public class Shoulder extends AppCompatActivity {
             "Cable Face Pulls"
 
     };
+    int categoryId = 6;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,6 +46,22 @@ public class Shoulder extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_shoulder);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_shoulder);
+        db = AppDataBase.getInstance(getApplicationContext());
+        List<name_Exercise> exerciseList = new ArrayList<>();
+        for (String exerciseName : ShoulderExercises) {
+            name_Exercise exercise = new name_Exercise();
+            exercise.setExercise_name(exerciseName);
+            exercise.setCategory_id(categoryId);
+            exerciseList.add(exercise);
+        }
+        new Thread(() -> {
+            List<name_Exercise> existingExercise = db.NameExDao().getExercisesForCategory(6);
+
+            if (existingExercise == null || existingExercise.isEmpty()) {
+                db.NameExDao().insertAll(exerciseList);
+
+            }
+        }).start();
         ListView listView;
         listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

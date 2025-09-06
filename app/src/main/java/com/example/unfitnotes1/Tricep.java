@@ -19,11 +19,15 @@ import com.example.unfitnotes1.databinding.ActivityBicepsBinding;
 import com.example.unfitnotes1.databinding.ActivityTricepBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tricep extends AppCompatActivity {
     FloatingActionButton fab;
+    private AppDataBase db;
     private ActivityTricepBinding binding;
 
-    String [] BicepExercises = {
+    String [] TricepExercises = {
             "Cable Overhead Extensions",
             "Rope Push Down",
             "Skull Crusher",
@@ -32,6 +36,7 @@ public class Tricep extends AppCompatActivity {
             "Lying Tricep Extensions"
 
     };
+    int categoryId = 7;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,17 +45,33 @@ public class Tricep extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tricep);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tricep);
+        db = AppDataBase.getInstance(getApplicationContext());
+        List<name_Exercise> exerciseList = new ArrayList<>();
+        for (String exerciseName : TricepExercises) {
+            name_Exercise exercise = new name_Exercise();
+            exercise.setExercise_name(exerciseName);
+            exercise.setCategory_id(categoryId);
+            exerciseList.add(exercise);
+        }
+        new Thread(() -> {
+            List<name_Exercise> existingExercise = db.NameExDao().getExercisesForCategory(7);
+
+            if (existingExercise == null || existingExercise.isEmpty()) {
+                db.NameExDao().insertAll(exerciseList);
+
+            }
+        }).start();
         ListView listView;
         listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Tricep.this, addSets.class);
-                intent.putExtra("exercise_name", BicepExercises[position]);
+                intent.putExtra("exercise_name", TricepExercises[position]);
                 startActivity(intent);
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, BicepExercises);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, TricepExercises);
         listView.setAdapter(adapter);
         fab = findViewById(R.id.floatingActionButton5);
         fab.setOnClickListener(v -> finish());

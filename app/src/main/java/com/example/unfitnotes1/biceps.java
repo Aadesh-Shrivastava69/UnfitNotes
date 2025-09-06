@@ -17,8 +17,12 @@ import androidx.databinding.DataBindingUtil;
 import com.example.unfitnotes1.databinding.ActivityBicepsBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class biceps extends AppCompatActivity {
     FloatingActionButton fab;
+    private AppDataBase db;
     private ActivityBicepsBinding binding;
 
     String [] BicepExercises = {
@@ -30,6 +34,7 @@ public class biceps extends AppCompatActivity {
             "EZ-Bar Curls"
 
     };
+    int categoryId = 3;
 
 
     @Override
@@ -40,6 +45,22 @@ public class biceps extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_biceps);
         ListView listView;
         listView = findViewById(R.id.listView);
+        db = AppDataBase.getInstance(getApplicationContext());
+        List<name_Exercise> exerciseList = new ArrayList<>();
+        for (String exerciseName : BicepExercises) {
+            name_Exercise exercise = new name_Exercise();
+            exercise.setExercise_name(exerciseName);
+            exercise.setCategory_id(categoryId);
+            exerciseList.add(exercise);
+        }
+        new Thread(() -> {
+            List<name_Exercise> existingExercise = db.NameExDao().getExercisesForCategory(3);
+
+            if (existingExercise == null || existingExercise.isEmpty()) {
+                db.NameExDao().insertAll(exerciseList);
+
+            }
+        }).start();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

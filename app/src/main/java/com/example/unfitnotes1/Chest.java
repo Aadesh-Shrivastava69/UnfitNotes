@@ -17,9 +17,13 @@ import androidx.databinding.DataBindingUtil;
 import com.example.unfitnotes1.databinding.ActivityChestBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Chest extends AppCompatActivity {
     private static final String TAG = "Chest";
     FloatingActionButton fab;
+    private AppDataBase db;
     private ListView listView;
     private ActivityChestBinding binding;
     String[] ChestExercise = {
@@ -35,6 +39,7 @@ public class Chest extends AppCompatActivity {
             "decline Bench Press",
 
     };
+    int categoryId = 4;
 
 
     @Override
@@ -43,6 +48,22 @@ public class Chest extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chest);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_chest);
+        db = AppDataBase.getInstance(getApplicationContext());
+        List<name_Exercise> exerciseList = new ArrayList<>();
+        for (String exerciseName : ChestExercise) {
+            name_Exercise exercise = new name_Exercise();
+            exercise.setExercise_name(exerciseName);
+            exercise.setCategory_id(categoryId);
+            exerciseList.add(exercise);
+        }
+        new Thread(() -> {
+            List<name_Exercise> existingExercise = db.NameExDao().getExercisesForCategory(4);
+
+            if (existingExercise == null || existingExercise.isEmpty()) {
+                db.NameExDao().insertAll(exerciseList);
+
+            }
+        }).start();
         listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

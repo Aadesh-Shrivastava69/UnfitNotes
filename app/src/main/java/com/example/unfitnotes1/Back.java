@@ -1,5 +1,7 @@
 package com.example.unfitnotes1;
 
+
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,10 +19,15 @@ import androidx.databinding.DataBindingUtil;
 import com.example.unfitnotes1.databinding.ActivityBackBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Back extends AppCompatActivity {
     private static final String TAG = "Back";
     private ActivityBackBinding binding;
     FloatingActionButton fab2;
+    private AppDataBase db;
     ListView listview;
     String [] BackExercises = {
             "Barbell Row",
@@ -34,6 +41,7 @@ public class Back extends AppCompatActivity {
             "Seated Cable Row",
             "T-Bar Row"
     };
+    int categoryId = 2;
 
 
     @Override
@@ -42,6 +50,14 @@ public class Back extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_back);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_back);
+        db = AppDataBase.getInstance(getApplicationContext());
+        List<name_Exercise> exerciseList = new ArrayList<>();
+        for (String exerciseName : BackExercises) {
+            name_Exercise exercise = new name_Exercise();
+            exercise.setExercise_name(exerciseName);
+            exercise.setCategory_id(categoryId);
+            exerciseList.add(exercise);
+        }
         fab2 = findViewById(R.id.floatingActionButton5);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +65,14 @@ public class Back extends AppCompatActivity {
                 finish();
             }
         });
+        new Thread(() -> {
+            List<name_Exercise> existingExercise = db.NameExDao().getExercisesForCategory(2);
+
+            if (existingExercise == null || existingExercise.isEmpty()) {
+                db.NameExDao().insertAll(exerciseList);
+
+            }
+        }).start();
         listview = findViewById(R.id.listView);
         ArrayAdapter <String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, BackExercises);
         listview.setAdapter(adapter);
