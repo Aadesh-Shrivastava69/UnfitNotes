@@ -2,6 +2,7 @@ package com.example.unfitnotes1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,7 +25,8 @@ public class addSets extends AppCompatActivity {
     Button button;
     TextView textView;
     EditText editText;
-    sqlitedatabase db;
+    private AppDataBase db;
+
 
 
     @Override
@@ -33,17 +36,17 @@ public class addSets extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_sets);
         String exercise_name = getIntent().getStringExtra("exercise_name");
         String today = new java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(new java.util.Date());
-        AppDataBase db = Room.databaseBuilder(getApplicationContext(),AppDataBase.class, "unfitnotes_db")
-                .fallbackToDestructiveMigration()
-                .build();
+        db = AppDataBase.getInstance(getApplicationContext());
         button= findViewById(R.id.button16);
         button.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
             @Override
             public void onClick(View v) {
                int reps = Integer.parseInt((binding.editTextNumberDecimal).getText().toString());
-                double weight = Double.parseDouble((binding.editTextNumberDecimal2).getText().toString());
-                workoutset newset = new workoutset(1,today,exercise_name,weight,reps);
-                new Thread(() -> db.dao().insert(newset)).start();
+                float weight = Float.parseFloat((binding.editTextNumberDecimal2).getText().toString());
+                new Thread(() -> {
+                    db.newWorkoutSetDao().insert(new NewWorkoutSet(exercise_name,today,weight,reps));
+                }).start();
 
 
                 Intent intent = new Intent(addSets.this, MainActivity.class);

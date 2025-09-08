@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     Spinner spinner;
     PopupMenu popupMenu;
+    private AppDataBase db;
     private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private ActivityResultLauncher<Intent> addSetLauncher;
@@ -106,12 +107,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onResume: resumed");
         Toast.makeText(this,"resumed",Toast.LENGTH_SHORT).show();
         ListView listView = findViewById(R.id.listView69);
-        AppDataBase db = Room.databaseBuilder(getApplicationContext(),
-                        AppDataBase.class, "unfitnotes_db")
-                .fallbackToDestructiveMigration()
-                .build();
+        db = AppDataBase.getInstance(getApplicationContext());
         new Thread(() -> {
-            List<workoutset> sets = db.dao().getAll();
+            List<NewWorkoutSet> sets = db.newWorkoutSetDao().getAllWorkoutSets();
             runOnUiThread(() -> {
                 SetEntryAdapter adapter = new SetEntryAdapter(this,sets);
                 listView.setAdapter(adapter);

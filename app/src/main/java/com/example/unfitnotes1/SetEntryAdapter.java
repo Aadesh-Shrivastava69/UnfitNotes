@@ -11,12 +11,12 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public class SetEntryAdapter extends ArrayAdapter<workoutset> {
+public class SetEntryAdapter extends ArrayAdapter<NewWorkoutSet> {
     private Context context;
-    private List<workoutset> sets;
+    private List<NewWorkoutSet> sets;
 
 
-    public SetEntryAdapter(@NonNull Context context, @NonNull List<workoutset> sets) {
+    public SetEntryAdapter(@NonNull Context context, @NonNull List<NewWorkoutSet> sets) {
         super(context, 0, sets);
         this.context = context;
         this.sets = sets;
@@ -27,11 +27,11 @@ public class SetEntryAdapter extends ArrayAdapter<workoutset> {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
 
         }
-        workoutset set = sets.get(position);
+        NewWorkoutSet set = sets.get(position);
         TextView exerciseNameTextView = convertView.findViewById(R.id.textViewExerciseName);
         TextView repsTextView = convertView.findViewById(R.id.textViewReps);
         TextView weightTextView = convertView.findViewById(R.id.textViewWeight);
-        exerciseNameTextView.setText(set.getExercise_name());
+        exerciseNameTextView.setText(set.getExerciseName());
         repsTextView.setText(String.valueOf(set.getReps()));
         weightTextView.setText(String.valueOf(set.getWeight()));
         return convertView;
